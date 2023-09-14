@@ -1,4 +1,4 @@
-package com.example.duni2
+package com.example.duni2.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,12 +1,11 @@
-package com.example.duni2
+package com.example.duni2.utils
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-import java.text.FieldPosition
+import com.example.duni2.model.Food
 
 @Dao
 interface FoodDao {
@@ -32,7 +31,7 @@ interface FoodDao {
 
 
     @Delete
-    fun deleteFood (food: Food )
+    fun deleteFood (food: Food)
 
 
     @Query("Select * From food Where subjectFood Like '%' || :searchText || '%' ")

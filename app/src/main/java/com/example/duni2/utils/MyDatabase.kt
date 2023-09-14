@@ -1,10 +1,11 @@
-package com.example.duni2
+package com.example.duni2.utils
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.duni2.model.Food
 
 
 @Database(entities = [Food::class], version = 1, exportSchema = false)

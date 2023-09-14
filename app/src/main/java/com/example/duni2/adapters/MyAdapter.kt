@@ -1,18 +1,14 @@
-package com.example.duni2
+package com.example.duni2.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.duni2.databinding.ItemBinding
-import com.example.duni2.databinding.ItemLayoutBinding
+import com.example.duni2.model.Food
+import com.example.duni2.utils.OnClickedListener
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 
@@ -23,10 +19,10 @@ class MyAdapter(
     private val onClickedListener: OnClickedListener
 ) : RecyclerView.Adapter<MyAdapter.Holder>() {
 
-
     inner class Holder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
+        @SuppressLint("SetTextI18n")
         fun onBind(position: Int) {
 
             binding.mapItemTxt.text = foodList[position].cityFood
@@ -43,7 +39,7 @@ class MyAdapter(
 
         }
 
-        fun click(position: Int) {
+        fun click() {
 
 
             itemView.setOnClickListener {
@@ -65,7 +61,6 @@ class MyAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        //val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_layout , parent , false)
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
 
@@ -80,9 +75,7 @@ class MyAdapter(
 
 
         holder.onBind(position)
-
-        holder.click(position)
-
+        holder.click()
 
     }
 
@@ -103,10 +96,6 @@ class MyAdapter(
     }
 
     fun updateFood(newFood: Food, position: Int) {
-//        foodList.remove(oldFood)
-//        foodList.add(position , newFood)
-//       notifyItemInserted(position)
-
 
         foodList[position] = newFood
         notifyItemInserted(position)

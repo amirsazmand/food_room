@@ -1,4 +1,4 @@
-package com.example.duni2
+package com.example.duni2.features
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,9 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.duni2.adapters.MyAdapter
 import com.example.duni2.databinding.ActivityMainBinding
 import com.example.duni2.databinding.DialogAddLayoutBinding
 import com.example.duni2.databinding.DialogRemoveLayoutBinding
+import com.example.duni2.model.Food
+import com.example.duni2.utils.FoodDao
+import com.example.duni2.utils.MyDatabase
+import com.example.duni2.utils.OnClickedListener
 
 const val SHARE_PREF = "share_pref"
 const val KEY_FIRST_RUN = "firstRun"
@@ -19,7 +24,6 @@ const val KEY_FIRST_RUN = "firstRun"
 
 class MainActivity : AppCompatActivity(), OnClickedListener {
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var adapter: MyAdapter
     private lateinit var foodDao: FoodDao
     private lateinit var editor: SharedPreferences.Editor
@@ -31,11 +35,17 @@ class MainActivity : AppCompatActivity(), OnClickedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initial()
+
+    }
+
+    private fun initial() {
         allListFood = arrayListOf()
         foodDao = MyDatabase.getDatabase(this).foodDao
-
         sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE)
         editor = sharedPreferences.edit()
+
 
         firstRun()
 
@@ -44,9 +54,6 @@ class MainActivity : AppCompatActivity(), OnClickedListener {
         addFoodToDataBase()
 
         search()
-
-
-
     }
 
     private fun addFoodToDataBase() {
@@ -266,6 +273,8 @@ class MainActivity : AppCompatActivity(), OnClickedListener {
 
     }
 
+
+
     private fun search() {
         binding.searchEditText.addTextChangedListener { editable ->
             if (editable!!.isNotEmpty()) {
@@ -288,33 +297,8 @@ class MainActivity : AppCompatActivity(), OnClickedListener {
         }
     }
 
-    private fun filterData(editable: Editable) {
-//        val cloneList = listFood.clone() as ArrayList<Food>
-//
-//
-//        var filteredList = cloneList.filter { foodItem ->
-//            foodItem.subjectFood.contains(editable)
-//        }
-//
-//        adapter.setListFood(ArrayList(filteredList))
 
-
-        // روش دوم فیلتر کردن داده ها
-        /*        val filterFoods = ArrayList<Food>()
-
-                cloneList.forEach {food ->
-
-                    if (food.subjectFood.contains(editable)) {
-                        filterFoods.add(food)
-
-                    }
-                }
-
-                adapter.setListFood(filterFoods)*/
-
-
-    }
-
+    // removed food with long click on item recyclerView
     override fun setOnLongClick(position: Int, oldFood: Food) {
 
         val dialog = AlertDialog.Builder(this).create()
@@ -348,12 +332,17 @@ class MainActivity : AppCompatActivity(), OnClickedListener {
 
     }
 
+
+
     private fun removeFood(food: Food) {
 
         foodDao.deleteFood(food)
 
     }
 
+
+
+    //updated food with  click on item recyclerView
     override fun setOnClick(position: Int, oldFood: Food) {
 
         val dialog = AlertDialog.Builder(this).create()
